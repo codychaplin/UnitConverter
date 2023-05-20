@@ -1,0 +1,54 @@
+{
+  "length": [
+    {
+      "name": "Meters",
+      "abbreviation": "m",
+      "to_base": 1
+    },
+    {
+      "name": "Kilometers",
+      "abbreviation": "km",
+      "to_base": 1000
+    },
+    {
+      "name": "Centimeters",
+      "abbreviation": "cm",
+      "to_base": 0.01
+    },
+    {
+      "name": "Millimeters",
+      "abbreviation": "mm",
+      "to_base": 0.001
+    },
+    {
+      "name": "Micrometers",
+      "abbreviation": "µm",
+      "to_base": 0.000001
+    },
+    {
+      "name": "Nanometers",
+      "abbreviation": "nm",
+      "to_base": 0.000000001
+    },
+    {
+      "name": "Miles",
+      "abbreviation": "mi",
+      "to_base": 1609.344
+    },
+    {
+      "name": "Yards",
+      "abbreviation": "yd",
+      "to_base": 0.9144
+    },
+    {
+      "name": "Feet",
+      "abbreviation": "ft",
+      "to_base": 0.3048
+    },
+    {
+      "name": "Inches",
+      "abbreviation": "in",
+      "to_base": 0.0254
+    }
+  ]
+}
