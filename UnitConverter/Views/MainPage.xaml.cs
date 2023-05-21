@@ -1,10 +1,13 @@
-﻿namespace UnitConverter.Views;
+﻿using UnitConverter.ViewModels;
+
+namespace UnitConverter.Views;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage()
+	public MainPage(MainViewModel vm)
 	{
 		InitializeComponent();
+        BindingContext = vm;
 	}
 
     /// <summary>

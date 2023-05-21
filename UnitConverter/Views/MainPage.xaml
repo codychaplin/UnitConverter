@@ -2,14 +2,87 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="UnitConverter.Views.MainPage"
+             x:DataType="viewmodels:MainViewModel"
+             xmlns:views="clr-namespace:UnitConverter.Views"
+             xmlns:viewmodels="clr-namespace:UnitConverter.ViewModels"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
              BackgroundColor="{StaticResource Gray900}"
              Title="Unit Converter">
 
-    <Grid RowDefinitions="*,*">
-        <Frame>
+    <Grid RowDefinitions="50,*,*">
+        
+        <!-- tabview -->
+        <sf:SfTabView x:Name="tvCategories"
+                      TabBarPlacement="Top"
+                      TabBarHeight="50"
+                      IndicatorBackground="{StaticResource Gray100}">
 
-        </Frame>
-        <Grid Grid.Row="1"
+            <sf:SfTabView.Resources>
+                <Style TargetType="sf:SfTabItem">
+                    <Setter Property="VisualStateManager.VisualStateGroups">
+                        <VisualStateGroupList>
+                            <VisualStateGroup>
+                                <VisualState x:Name="Normal" >
+                                    <VisualState.Setters>
+                                        <Setter Property="FontAttributes" Value="None" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="FontAttributes" Value="Bold" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </Setter>
+                </Style>
+            </sf:SfTabView.Resources>
+            
+            <!-- tab items -->
+            <sf:SfTabView.Items>
+                <sf:SfTabItem Header="Length" TextColor="{StaticResource Gray200}" />
+                <sf:SfTabItem Header="Temperature" TextColor="{StaticResource Gray200}" />
+                <sf:SfTabItem Header="Area" TextColor="{StaticResource Gray200}" />
+            </sf:SfTabView.Items>
+        </sf:SfTabView>
+        
+        <!-- content -->
+        <Grid Grid.Row="1" RowDefinitions="*,Auto,*,Auto" Padding="10">
+            <Grid.Resources>
+                <Style TargetType="{x:Type Entry}">
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="VerticalOptions" Value="Center" />
+                </Style>
+                <Style TargetType="{x:Type Picker}">
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="VerticalOptions" Value="End" />
+                </Style>
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="VerticalOptions" Value="Center" />
+                </Style>
+            </Grid.Resources>
+
+            <Grid RowDefinitions="*,*">
+                <Picker ItemsSource="{Binding TopUnits}" SelectedItem="{Binding SelectedTop}" />
+                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End" Spacing="10">
+                    <Entry x:Name="txtTop" Text="{Binding TopValue}" />
+                    <Label Text="{Binding TopUnit}" />
+                </HorizontalStackLayout>
+            </Grid>
+            <BoxView Grid.Row="1" HeightRequest="1" Color="#44ffffff" />
+            <Grid Grid.Row="2" RowDefinitions="*,*">
+                <Picker ItemsSource="{Binding BottomUnits}" SelectedItem="{Binding SelectedBottom}" />
+                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End" Spacing="10">
+                    <Entry Text="{Binding BottomValue}" />
+                    <Label Text="{Binding BottomUnit}" />
+                </HorizontalStackLayout>
+            </Grid>
+            <BoxView Grid.Row="3" HeightRequest="1" Color="#44ffffff" />
+        </Grid>
+        
+        <!-- numpad -->
+        <Grid Grid.Row="2"
               RowDefinitions="*,*,*,*"
               ColumnDefinitions="*,*,*,*"
               ColumnSpacing="5"
