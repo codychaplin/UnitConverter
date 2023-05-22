@@ -1,62 +1,50 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace UnitConverter.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
+    // current unit category
     [ObservableProperty]
     public Category unitCategory;
 
-    [ObservableProperty]
-    public decimal topValue;
-
-    [ObservableProperty]
-    public decimal bottomValue;
-
+    // Abbreviated unit value
     [ObservableProperty]
     public string topUnit;
-
     [ObservableProperty]
     public string bottomUnit;
 
+    // Picker Selected unit
     [ObservableProperty]
-    public string selectedTop;
+    public string selectedTopUnit;
+    [ObservableProperty]
+    public string selectedBottomUnit;
 
+    // Units from category
     [ObservableProperty]
-    public string selectedBottom;
-
-    [ObservableProperty]
-    public ObservableCollection<string> topUnits;
-
-    [ObservableProperty]
-    public ObservableCollection<string> bottomUnits;
+    public ObservableCollection<string> units;
 
     public MainViewModel()
     {
-        TopUnits = new ObservableCollection<string>()
-        {
-            "hello",
-            "there",
-            "test",
-            "great"
-        };
 
-        BottomUnits = new ObservableCollection<string>()
+    }
+
+    public async void Init(object sender,  EventArgs e)
+    {
+        Units = new ObservableCollection<string>()
         {
-            "test",
-            "there",
             "hello",
+            "there",
+            "test",
             "great"
         };
 
         TopUnit = "cm";
         BottomUnit = "km";
-        TopValue = 10;
-        BottomValue = 90;
 
-        SelectedTop = TopUnits[0];
-        SelectedBottom = BottomUnits[0];
+        SelectedTopUnit = Units[0];
+        SelectedBottomUnit = Units[1];
     }
 }
 

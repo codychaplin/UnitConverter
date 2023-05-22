@@ -1,6 +1,7 @@
-﻿using Syncfusion.Maui.Core.Hosting;
-using UnitConverter.ViewModels;
+﻿using CommunityToolkit.Maui;
+using Syncfusion.Maui.Core.Hosting;
 using UnitConverter.Views;
+using UnitConverter.ViewModels;
 
 namespace UnitConverter;
 
@@ -11,6 +12,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .ConfigureSyncfusionCore()
             .ConfigureFonts(fonts =>
 			{
