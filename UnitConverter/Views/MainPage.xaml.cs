@@ -4,13 +4,20 @@ namespace UnitConverter.Views;
 
 public partial class MainPage : ContentPage
 {
+    MainViewModel vm;
     Entry FocusedEntry = null;
 
-    public MainPage(MainViewModel vm)
+    public MainPage(MainViewModel _vm)
 	{
 		InitializeComponent();
+        vm = _vm;
         BindingContext = vm;
+
         Loaded += vm.Init;
+        txtTop.Focused += Entry_Focused;
+        txtTop.Unfocused += Entry_Unfocused;
+        txtBottom.Focused += Entry_Focused;
+        txtBottom.Unfocused += Entry_Unfocused;
     }
 
     void Entry_Focused(object sender, EventArgs e)
@@ -54,54 +61,80 @@ public partial class MainPage : ContentPage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    void BtnNum_Clicked(object sender, EventArgs e)
+    async void BtnNum_Clicked(object sender, EventArgs e)
     {
         if (FocusedEntry is null)
             return;
 
         var btn = sender as Button;
         string num = btn.Text;
-        UpdateValue(num);
+        await UpdateValue(num);
     }
 
     /// <summary>
     /// Handles validation and updating of values.
     /// </summary>
     /// <param name="num"></param>
-    void UpdateValue(string num)
+    async Task UpdateValue(string num)
     {
-        int pos = FocusedEntry.CursorPosition;
-        string text = FocusedEntry.Text;
-
-        // block leading zeros
-        if (num == "0" &&
-            text.Length > 0 &&
-            text[..pos].All(c => c == '0')) // if all character left of cursor are zero
+        try
         {
+            // cache Text, text.Length, and CursorPosition
+            string text = FocusedEntry.Text;
+            int originalLength = text.Length;
+            int pos = FocusedEntry.CursorPosition;
+
+            // validatation
+            if (text.Contains('.'))
+            {
+                if (text.Split('.')[1].Length > 10) // can't have > 10 digits after decimal
+                    throw new ArgumentException("Can't enter more than 10 digits");
+                if (num == ".") // only allow one decimal
+                    return;
+            }
+            if (text.Length > 16)
+                throw new ArgumentException("Can't enter more than 16 digits"); // can't be over 16 digits in total
+
+            // update text
+            text = text.Insert(pos, num);
+
+            // if last char is not a decimal, remove all ',' and format string
+            FocusedEntry.Text = (text[^1] != '.') ? decimal.Parse(text.Replace(",", "")).ToString("#,##0.##########") : text;
+
+            // update CursorPosition
+            FocusedEntry.CursorPosition = pos + (FocusedEntry.Text.Length - originalLength);
+
+            await UpdateOtherValue();
+        }
+        catch (ArgumentException ex)
+        {
+            await Shell.Current.DisplayAlert("", ex.Message, "OK");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+        }
+    }
+
+    async Task UpdateOtherValue()
+    {
+        if (string.IsNullOrEmpty(FocusedEntry.Text))
+        {
+            ClearText();
             return;
         }
-        if (pos == 1 && text[0] == '0' && num != ".")
+
+        // if focused on txtTop, update value in txtBottom, visa versa
+        if (FocusedEntry.Id == txtTop.Id)
         {
-            text = text.Remove(0, 1);
-            pos = 0;
+            string otherValue = await vm.UpdateOtherValue(FocusedEntry.Text, true);
+            txtBottom.Text = otherValue;
         }
-
-        // handle decimal points
-        if (num == ".")
+        else if (FocusedEntry.Id == txtBottom.Id)
         {
-            if (text.Contains('.'))
-                return;
-
-            if (pos == 0)
-            {
-                FocusedEntry.Text = text.Insert(pos, "0" + num);
-                return;
-            }
+            string otherValue = await vm.UpdateOtherValue(FocusedEntry.Text, false);
+            txtTop.Text = otherValue;
         }
-
-        // update text
-        FocusedEntry.Text = text.Insert(pos, num);
-        FocusedEntry.CursorPosition = pos + 1;
     }
 
     /// <summary>
@@ -109,11 +142,12 @@ public partial class MainPage : ContentPage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    void BtnPlusMinus_Clicked(object sender, EventArgs e)
+    async void BtnPlusMinus_Clicked(object sender, EventArgs e)
     {
         if (FocusedEntry is null)
             return;
 
+        // if already negative, remove '-' sign, otherwise add it
         int pos = FocusedEntry.CursorPosition;
         if (FocusedEntry.Text[0] == '-')
         {
@@ -125,6 +159,56 @@ public partial class MainPage : ContentPage
             FocusedEntry.Text = FocusedEntry.Text.Insert(0, "-");
             FocusedEntry.CursorPosition = pos + 1;
         }
+
+        await UpdateOtherValue();
+    }
+
+    /// <summary>
+    /// Removes character at cursor.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    async void BtnBack_Clicked(object sender, EventArgs e)
+    {
+        if (FocusedEntry is null)
+            return;
+
+        // cache CursorPosition, Text, and Length
+        int pos = FocusedEntry.CursorPosition;
+        string text = FocusedEntry.Text;
+        int originalLength = text.Length;
+
+        // if at beginning or text is empty, return
+        if (pos == 0 || string.IsNullOrEmpty(text))
+            return;
+
+        // update pos and text
+        pos -= 1;
+        if (text.ElementAt(pos) == ',')
+            pos -= 1;
+        text = text.Remove(pos, 1);
+
+        if (text.Length > 0)
+        {
+            // trim leading ','
+            if (text.StartsWith(','))
+                text = text.TrimStart(',');
+
+            // format text
+            FocusedEntry.Text = decimal.Parse(text).ToString("#,##0.##########");
+
+            // update CursorPosition
+            if (FocusedEntry.Text.Length <= originalLength - 2)
+                FocusedEntry.CursorPosition = (pos < 1) ? pos : pos - 1;
+            else
+                FocusedEntry.CursorPosition = pos;
+        }
+        else
+        {
+            FocusedEntry.Text = text;
+        }
+
+        await UpdateOtherValue();
     }
 
     /// <summary>
@@ -134,32 +218,16 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     void BtnClear_Clicked(object sender, EventArgs e)
     {
-        txtTop.Text = "";
-        txtBottom.Text = "";
+        ClearText();
     }
 
-    /// <summary>
-    /// Removes character at cursor.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    void BtnBack_Clicked(object sender, EventArgs e)
+    void ClearText()
     {
-        if (FocusedEntry is null)
-            return;
+        txtTop.Text = "";
+        txtBottom.Text = "";
 
-        if (FocusedEntry.Text.Length <= 0)
-            return;
-
-        int pos = FocusedEntry.CursorPosition;
-
-        if (pos == 0)
-            return;
-        else
-            pos -= 1;
-
-        FocusedEntry.Text = FocusedEntry.Text.Remove(pos, 1);
-        FocusedEntry.CursorPosition = pos;
+        if (FocusedEntry != null)
+            FocusedEntry.Text = "";
     }
 
     /// <summary>

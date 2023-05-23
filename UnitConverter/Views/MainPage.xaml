@@ -70,12 +70,8 @@
             <Grid RowDefinitions="*,*">
                 <Picker ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedTopUnit}" />
                 <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End" Spacing="5">
-                    <Entry x:Name="txtTop"
-                           Text=""
-                           HorizontalTextAlignment="End"
-                           Focused="Entry_Focused"
-                           Unfocused="Entry_Unfocused" />
-                    <Label Text="{Binding TopUnit}" />
+                    <Entry x:Name="txtTop" Text="" HorizontalTextAlignment="End" />
+                    <Label Text="{Binding SelectedTopUnit.Abbreviation}" />
                 </HorizontalStackLayout>
             </Grid>
 
@@ -86,12 +82,8 @@
             <Grid Grid.Row="2" RowDefinitions="*,*">
                 <Picker ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedBottomUnit}" />
                 <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End" Spacing="5">
-                    <Entry x:Name="txtBottom"
-                           Text=""
-                           HorizontalTextAlignment="End"
-                           Focused="Entry_Focused"
-                           Unfocused="Entry_Unfocused" />
-                    <Label Text="{Binding BottomUnit}" />
+                    <Entry x:Name="txtBottom" Text="" HorizontalTextAlignment="End" />
+                    <Label Text="{Binding SelectedBottomUnit.Abbreviation}" />
                 </HorizontalStackLayout>
             </Grid>
 

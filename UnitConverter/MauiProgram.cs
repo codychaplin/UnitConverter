@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Syncfusion.Maui.Core.Hosting;
 using UnitConverter.Views;
+using UnitConverter.Services;
 using UnitConverter.ViewModels;
 
 namespace UnitConverter;
@@ -22,7 +23,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<MainViewModel>();
+        builder.Services.AddSingleton<IUnitService, UnitService>();
 
-		return builder.Build();
+        return builder.Build();
 	}
 }

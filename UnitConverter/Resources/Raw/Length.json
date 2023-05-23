@@ -1,0 +1,52 @@
+[
+  {
+    "Name": "Nanometers",
+    "Abbreviation": "nm",
+    "ToBase": 0.000000001
+  },
+  {
+    "Name": "Micrometers",
+    "Abbreviation": "µm",
+    "ToBase": 0.000001
+  },
+  {
+    "Name": "Millimeters",
+    "Abbreviation": "mm",
+    "ToBase": 0.001
+  },
+  {
+    "Name": "Centimeters",
+    "Abbreviation": "cm",
+    "ToBase": 0.01
+  },
+  {
+    "Name": "Meters",
+    "Abbreviation": "m",
+    "ToBase": 1
+  },
+  {
+    "Name": "Kilometers",
+    "Abbreviation": "km",
+    "ToBase": 1000
+  },
+  {
+    "Name": "Inches",
+    "Abbreviation": "in",
+    "ToBase": 0.0254
+  },
+  {
+    "Name": "Feet",
+    "Abbreviation": "ft",
+    "ToBase": 0.3048
+  },
+  {
+    "Name": "Yards",
+    "Abbreviation": "yd",
+    "ToBase": 0.9144
+  },
+  {
+    "Name": "Miles",
+    "Abbreviation": "mi",
+    "ToBase": 1609.344
+  }
+]
