@@ -1,4 +1,5 @@
 ﻿using Syncfusion.Maui.TabView;
+using UnitConverter.Models;
 using UnitConverter.ViewModels;
 
 namespace UnitConverter.Views;
@@ -14,19 +15,23 @@ public partial class MainPage : ContentPage
         vm = _vm;
         BindingContext = vm;
 
-        Loaded += vm.Init;
         txtTop.Focused += Entry_Focused;
         txtTop.Unfocused += Entry_Unfocused;
         txtBottom.Focused += Entry_Focused;
         txtBottom.Unfocused += Entry_Unfocused;
         tvCategories.SelectionChanged += Changed;
+
+        tvCategories.SelectedIndex = 0;
     }
 
     async void Changed(object sender, TabSelectionChangedEventArgs e)
     {
         // tabs are in same order as Category Enum
-        await vm.ChangeCategory((int)e.NewIndex);
+        int newIndex = (int)e.NewIndex;
+        await vm.ChangeCategory(newIndex);
         ClearText();
+
+        BtnPlusMinus.IsEnabled = (Category)newIndex == Category.Temperature;
     }
 
     void Entry_Focused(object sender, EventArgs e)
@@ -54,15 +59,16 @@ public partial class MainPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Set FocusedEntry to null when Entry is unfocused.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     void Entry_Unfocused(object sender, EventArgs e)
     {
         FocusedEntry = null;
-
-        if (!txtTop.IsFocused && !txtBottom.IsFocused)
-        {
-            BtnUp.IsEnabled = true;
-            BtnDown.IsEnabled = true;
-        }
+        BtnUp.IsEnabled = true;
+        BtnDown.IsEnabled = true;
     }
 
     /// <summary>
@@ -125,6 +131,9 @@ public partial class MainPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Uses focused text to convert other value.
+    /// </summary>
     async Task UpdateOtherValue()
     {
         if (string.IsNullOrEmpty(FocusedEntry.Text))
@@ -158,14 +167,19 @@ public partial class MainPage : ContentPage
 
         // if already negative, remove '-' sign, otherwise add it
         int pos = FocusedEntry.CursorPosition;
-        if (FocusedEntry.Text[0] == '-')
+        string text = FocusedEntry.Text;
+        if (string.IsNullOrEmpty(text) )
         {
-            FocusedEntry.Text = FocusedEntry.Text.Remove(0, 1);
+            FocusedEntry.Text = "-";
+        }
+        else if (text[0] == '-')
+        {
+            FocusedEntry.Text = text.Remove(0, 1);
             FocusedEntry.CursorPosition = pos - 1;
         }
         else
         {
-            FocusedEntry.Text = FocusedEntry.Text.Insert(0, "-");
+            FocusedEntry.Text = text.Insert(0, "-");
             FocusedEntry.CursorPosition = pos + 1;
         }
 
@@ -203,14 +217,23 @@ public partial class MainPage : ContentPage
             if (text.StartsWith(','))
                 text = text.TrimStart(',');
 
-            // format text
-            FocusedEntry.Text = decimal.Parse(text).ToString("#,##0.##########");
-
-            // update CursorPosition
-            if (FocusedEntry.Text.Length <= originalLength - 2)
-                FocusedEntry.CursorPosition = (pos < 1) ? pos : pos - 1;
+            // if text is only "-", skip formatting
+            if (text == "-")
+            {
+                FocusedEntry.Text = text;
+                FocusedEntry.CursorPosition = 1;
+            }
             else
-                FocusedEntry.CursorPosition = pos;
+            {
+                // format text
+                FocusedEntry.Text = decimal.Parse(text).ToString("#,##0.##########");
+
+                // update CursorPosition
+                if (FocusedEntry.Text.Length <= originalLength - 2)
+                    FocusedEntry.CursorPosition = (pos < 1) ? pos : pos - 1;
+                else
+                    FocusedEntry.CursorPosition = pos;
+            }
         }
         else
         {
@@ -230,6 +253,9 @@ public partial class MainPage : ContentPage
         ClearText();
     }
 
+    /// <summary>
+    /// Clear top, bottom, and focused text values.
+    /// </summary>
     void ClearText()
     {
         txtTop.Text = "";

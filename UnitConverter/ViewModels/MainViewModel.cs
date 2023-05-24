@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Syncfusion.Maui.TabView;
 using UnitConverter.Models;
 using UnitConverter.Services;
 
@@ -29,19 +28,6 @@ public partial class MainViewModel : ObservableObject
         unitService = _unitService;
     }
 
-    public async void Init(object sender,  EventArgs e)
-    {
-        try
-        {
-            // select first category on start
-            await ChangeCategory(0);
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
-        }
-    }
-
     /// <summary>
     /// Updates SelectedUnitCategory
     /// </summary>
@@ -49,16 +35,23 @@ public partial class MainViewModel : ObservableObject
     /// <returns></returns>
     public async Task ChangeCategory(int index)
     {
-        // reads/parses json file into list of units
-        SelectedUnitCategory = (Category)index;
-        var units = await unitService.GetUnitsFromCategory(SelectedUnitCategory);
-        Units = new(units);
+        try
+        {
+            // reads/parses json file into list of units
+            SelectedUnitCategory = (Category)index;
+            var units = await unitService.GetUnitsFromCategory(SelectedUnitCategory);
+            Units = new(units);
 
-        // sets base value as top and next as bottom
-        var topUnit = Units.FirstOrDefault(u => u.ToBase == 1);
-        var bottomUnit = Units[Units.IndexOf(topUnit) + 1];
-        SelectedTopUnit = topUnit;
-        SelectedBottomUnit = bottomUnit;
+            // sets base value as top and next as bottom
+            var topUnit = Units.FirstOrDefault(u => u.ToBase == 1);
+            var bottomUnit = Units[Units.IndexOf(topUnit) + 1];
+            SelectedTopUnit = topUnit;
+            SelectedBottomUnit = bottomUnit;
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+        }
     }
 
     /// <summary>
@@ -71,6 +64,9 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
+            if (numString == "-")
+                return "";
+
             // perform conversion for other number
             decimal num = decimal.Parse(numString);
             decimal otherNum = ConvertValue(num, isTop);

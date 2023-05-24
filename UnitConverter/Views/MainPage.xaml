@@ -108,11 +108,12 @@
             <Button Grid.Row="2" Grid.Column="0" Text="1" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="2" Grid.Column="1" Text="2" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="2" Grid.Column="2" Text="3" Clicked="BtnNum_Clicked" />
-            <Button Grid.Row="3" Grid.Column="0" Text="+/-" Clicked="BtnPlusMinus_Clicked" />
+            <Button Grid.Row="3" Grid.Column="0" Text="+/-" Clicked="BtnPlusMinus_Clicked" x:Name="BtnPlusMinus" />
             <Button Grid.Row="3" Grid.Column="1" Text="0" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="3" Grid.Column="2" Text="." Clicked="BtnNum_Clicked" />
             <ImageButton Grid.Row="0"
                          Grid.Column="3"
+                         CornerRadius="10"
                          Source="backspace.png"
                          Clicked="BtnBack_Clicked"
                          BackgroundColor="{StaticResource Gray700}" />
@@ -127,12 +128,14 @@
             <ImageButton x:Name="BtnUp"
                          Grid.Row="2"
                          Grid.Column="3"
+                         CornerRadius="10"
                          Source="up_arrow.png"
                          Clicked="BtnUp_Clicked"
                          BackgroundColor="{StaticResource Gray700}" />
             <ImageButton x:Name="BtnDown"
                          Grid.Row="3"
                          Grid.Column="3"
+                         CornerRadius="10"
                          Source="down_arrow.png"
                          Clicked="BtnDown_Clicked"
                          BackgroundColor="{StaticResource Gray700}" />
