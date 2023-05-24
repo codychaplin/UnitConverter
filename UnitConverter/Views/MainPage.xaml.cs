@@ -1,4 +1,5 @@
-﻿using UnitConverter.ViewModels;
+﻿using Syncfusion.Maui.TabView;
+using UnitConverter.ViewModels;
 
 namespace UnitConverter.Views;
 
@@ -18,6 +19,14 @@ public partial class MainPage : ContentPage
         txtTop.Unfocused += Entry_Unfocused;
         txtBottom.Focused += Entry_Focused;
         txtBottom.Unfocused += Entry_Unfocused;
+        tvCategories.SelectionChanged += Changed;
+    }
+
+    async void Changed(object sender, TabSelectionChangedEventArgs e)
+    {
+        // tabs are in same order as Category Enum
+        await vm.ChangeCategory((int)e.NewIndex);
+        ClearText();
     }
 
     void Entry_Focused(object sender, EventArgs e)

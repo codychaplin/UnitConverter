@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "Celsius",
+    "Abbreviation": "°C",
+    "ToBase": 1
+  },
+  {
+    "Name": "Fahrenheit",
+    "Abbreviation": "°F",
+    "ToBase": 0.5555555555555556,
+    "Offset": 32
+  },
+  {
+    "Name": "Kelvin",
+    "Abbreviation": "K",
+    "ToBase": 1,
+    "Offset": 273.15
+  }
+]

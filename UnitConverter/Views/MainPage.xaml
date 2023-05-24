@@ -44,8 +44,8 @@
             <!-- tab items -->
             <sf:SfTabView.Items>
                 <sf:SfTabItem Header="Length" />
+                <sf:SfTabItem Header="Mass" />
                 <sf:SfTabItem Header="Temperature" />
-                <sf:SfTabItem Header="Area" />
             </sf:SfTabView.Items>
         </sf:SfTabView>
         

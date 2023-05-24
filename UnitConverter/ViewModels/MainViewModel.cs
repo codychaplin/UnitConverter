@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Syncfusion.Maui.TabView;
 using UnitConverter.Models;
 using UnitConverter.Services;
 
@@ -32,21 +33,32 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            // reads/parses json file into list of units
-            SelectedUnitCategory = Category.Length;
-            var units = await unitService.GetUnitsFromCategory(SelectedUnitCategory);
-            Units = new(units);
-
-            // sets base value as top and next as bottom
-            var topUnit = Units.FirstOrDefault(u => u.ToBase == 1);
-            var bottomUnit = Units[Units.IndexOf(topUnit) + 1];
-            SelectedTopUnit = topUnit;
-            SelectedBottomUnit = bottomUnit;
+            // select first category on start
+            await ChangeCategory(0);
         }
         catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
         }
+    }
+
+    /// <summary>
+    /// Updates SelectedUnitCategory
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    public async Task ChangeCategory(int index)
+    {
+        // reads/parses json file into list of units
+        SelectedUnitCategory = (Category)index;
+        var units = await unitService.GetUnitsFromCategory(SelectedUnitCategory);
+        Units = new(units);
+
+        // sets base value as top and next as bottom
+        var topUnit = Units.FirstOrDefault(u => u.ToBase == 1);
+        var bottomUnit = Units[Units.IndexOf(topUnit) + 1];
+        SelectedTopUnit = topUnit;
+        SelectedBottomUnit = bottomUnit;
     }
 
     /// <summary>
@@ -59,19 +71,9 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
+            // perform conversion for other number
             decimal num = decimal.Parse(numString);
-            decimal otherNum;
-            decimal baseValue;
-            if (isTop)
-            {
-                baseValue = num * SelectedTopUnit.ToBase;
-                otherNum = baseValue / SelectedBottomUnit.ToBase;
-            }
-            else
-            {
-                baseValue = num * SelectedBottomUnit.ToBase;
-                otherNum = baseValue / SelectedTopUnit.ToBase;
-            }
+            decimal otherNum = ConvertValue(num, isTop);
 
             // format to 10 decimal places
             string formattedNum = otherNum.ToString("#,##0.##########");
@@ -82,5 +84,40 @@ public partial class MainViewModel : ObservableObject
             await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
             return "";
         }
+    }
+
+    decimal ConvertValue(decimal num, bool isTop)
+    {
+        decimal otherNum = 0;
+        decimal baseValue = 0;
+
+        if (isTop)
+        {
+            if (SelectedUnitCategory == Category.Temperature)
+            {
+                baseValue = (num - SelectedTopUnit.Offset.GetValueOrDefault()) * SelectedTopUnit.ToBase;
+                otherNum = (baseValue / SelectedBottomUnit.ToBase) + SelectedBottomUnit.Offset.GetValueOrDefault();
+            }
+            else
+            {
+                baseValue = num * SelectedTopUnit.ToBase;
+                otherNum = baseValue / SelectedBottomUnit.ToBase;
+            }
+        }
+        else
+        {
+            if (SelectedUnitCategory == Category.Temperature)
+            {
+                baseValue = (num - SelectedBottomUnit.Offset.GetValueOrDefault()) * SelectedBottomUnit.ToBase;
+                otherNum = (baseValue / SelectedTopUnit.ToBase) + SelectedTopUnit.Offset.GetValueOrDefault();
+            }
+            else
+            {
+                baseValue = num * SelectedBottomUnit.ToBase;
+                otherNum = baseValue / SelectedTopUnit.ToBase;
+            }
+        }
+
+        return otherNum;
     }
 }

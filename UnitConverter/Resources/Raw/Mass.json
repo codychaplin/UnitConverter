@@ -1,0 +1,52 @@
+[
+  {
+    "Name": "Micrograms",
+    "Abbreviation": "mcg",
+    "ToBase": 0.000001
+  },
+  {
+    "Name": "Milligrams",
+    "Abbreviation": "mg",
+    "ToBase": 0.001
+  },
+  {
+    "Name": "Grams",
+    "Abbreviation": "g",
+    "ToBase": 1
+  },
+  {
+    "Name": "Kilograms",
+    "Abbreviation": "kg",
+    "ToBase": 1000
+  },
+  {
+    "Name": "Metric Tons",
+    "Abbreviation": "t",
+    "ToBase": 1000000
+  },
+  {
+    "Name": "Ounces",
+    "Abbreviation": "oz",
+    "ToBase": 28.3495231
+  },
+  {
+    "Name": "Pounds",
+    "Abbreviation": "lb",
+    "ToBase": 453.59237
+  },
+  {
+    "Name": "US Tons",
+    "Abbreviation": "ton",
+    "ToBase": 907184.74
+  },
+  {
+    "Name": "Stones",
+    "Abbreviation": "st",
+    "ToBase": 6350.29318
+  },
+  {
+    "Name": "UK Tons",
+    "Abbreviation": "lton",
+    "ToBase": 1016046.91
+  }
+]
