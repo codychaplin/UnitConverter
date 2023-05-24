@@ -1,0 +1,52 @@
+[
+  {
+    "Name": "Nanoseconds",
+    "Abbreviation": "ns",
+    "ToBase": 0.000000001
+  },
+  {
+    "Name": "Microseconds",
+    "Abbreviation": "μs",
+    "ToBase": 0.000001
+  },
+  {
+    "Name": "Milliseconds",
+    "Abbreviation": "ms",
+    "ToBase": 0.001
+  },
+  {
+    "Name": "Seconds",
+    "Abbreviation": "s",
+    "ToBase": 1
+  },
+  {
+    "Name": "Minutes",
+    "Abbreviation": "min",
+    "ToBase": 60
+  },
+  {
+    "Name": "Hours",
+    "Abbreviation": "h",
+    "ToBase": 3600
+  },
+  {
+    "Name": "Days",
+    "Abbreviation": "d",
+    "ToBase": 86400
+  },
+  {
+    "Name": "Weeks",
+    "Abbreviation": "wk",
+    "ToBase": 604800
+  },
+  {
+    "Name": "Months",
+    "Abbreviation": "mo",
+    "ToBase": 2629800
+  },
+  {
+    "Name": "Years",
+    "Abbreviation": "yr",
+    "ToBase": 31557600
+  }
+]

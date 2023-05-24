@@ -1,0 +1,52 @@
+[
+  {
+    "Name": "Square Millimeters",
+    "Abbreviation": "mm²",
+    "ToBase": 0.000001
+  },
+  {
+    "Name": "Square Centimeters",
+    "Abbreviation": "cm²",
+    "ToBase": 0.0001
+  },
+  {
+    "Name": "Square Meters",
+    "Abbreviation": "m²",
+    "ToBase": 1
+  },
+  {
+    "Name": "Square Kilometers",
+    "Abbreviation": "km²",
+    "ToBase": 1000000
+  },
+  {
+    "Name": "Hectares",
+    "Abbreviation": "ha",
+    "ToBase": 10000
+  },
+  {
+    "Name": "Square Inches",
+    "Abbreviation": "in²",
+    "ToBase": 0.00064516
+  },
+  {
+    "Name": "Square Feet",
+    "Abbreviation": "ft²",
+    "ToBase": 0.09290304
+  },
+  {
+    "Name": "Square Yards",
+    "Abbreviation": "yd²",
+    "ToBase": 0.83612736
+  },
+  {
+    "Name": "Acres",
+    "Abbreviation": "ac",
+    "ToBase": 4046.8564224
+  },
+  {
+    "Name": "Square Miles",
+    "Abbreviation": "mi²",
+    "ToBase": 2589988.110336
+  }
+]

@@ -17,5 +17,9 @@ public enum Category
 {
     Length,
     Mass,
-    Temperature
+    Temperature,
+    Time,
+    Data,
+    Area,
+    Volume
 }

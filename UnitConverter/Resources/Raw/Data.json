@@ -1,0 +1,32 @@
+[
+  {
+    "Name": "Bits",
+    "Abbreviation": "b",
+    "ToBase": 0.125
+  },
+  {
+    "Name": "Bytes",
+    "Abbreviation": "B",
+    "ToBase": 1
+  },
+  {
+    "Name": "Kilobytes",
+    "Abbreviation": "KB",
+    "ToBase": 1024
+  },
+  {
+    "Name": "Megabytes",
+    "Abbreviation": "MB",
+    "ToBase": 1048576
+  },
+  {
+    "Name": "Gigabytes",
+    "Abbreviation": "GB",
+    "ToBase": 1073741824
+  },
+  {
+    "Name": "Terabytes",
+    "Abbreviation": "TB",
+    "ToBase": 1099511627776
+  }
+]

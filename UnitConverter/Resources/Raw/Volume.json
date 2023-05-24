@@ -1,0 +1,52 @@
+[
+  {
+    "Name": "Cubic Millimeters",
+    "Abbreviation": "mm³",
+    "ToBase": 0.000000001
+  },
+  {
+    "Name": "Cubic Centimeters",
+    "Abbreviation": "cm³",
+    "ToBase": 0.000001
+  },
+  {
+    "Name": "Milliliters",
+    "Abbreviation": "mL",
+    "ToBase": 0.000001
+  },
+  {
+    "Name": "Cubic Meters",
+    "Abbreviation": "m³",
+    "ToBase": 1
+  },
+  {
+    "Name": "Cubic Kilometers",
+    "Abbreviation": "km³",
+    "ToBase": 1000000000
+  },
+  {
+    "Name": "Liters",
+    "Abbreviation": "L",
+    "ToBase": 0.001
+  },
+  {
+    "Name": "Cubic Inches",
+    "Abbreviation": "in³",
+    "ToBase": 0.000016387064
+  },
+  {
+    "Name": "Cubic Feet",
+    "Abbreviation": "ft³",
+    "ToBase": 0.028316846592
+  },
+  {
+    "Name": "Cubic Yards",
+    "Abbreviation": "yd³",
+    "ToBase": 0.764554857984
+  },
+  {
+    "Name": "Gallons",
+    "Abbreviation": "gal",
+    "ToBase": 0.003785411784
+  }
+]

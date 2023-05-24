@@ -16,6 +16,8 @@
         <sf:SfTabView x:Name="tvCategories"
                       TabBarPlacement="Top"
                       TabBarHeight="50"
+                      TabWidthMode="SizeToContent"
+                      BackgroundColor="{StaticResource Gray700}"
                       IndicatorBackground="{StaticResource Blue200Accent}">
 
             <sf:SfTabView.Resources>
@@ -46,11 +48,15 @@
                 <sf:SfTabItem Header="Length" />
                 <sf:SfTabItem Header="Mass" />
                 <sf:SfTabItem Header="Temperature" />
+                <sf:SfTabItem Header="Time" />
+                <sf:SfTabItem Header="Data" />
+                <sf:SfTabItem Header="Area" />
+                <sf:SfTabItem Header="Volume" />
             </sf:SfTabView.Items>
         </sf:SfTabView>
         
         <!-- content -->
-        <Grid Grid.Row="1" RowDefinitions="*,Auto,*,Auto" Padding="10">
+        <Grid Grid.Row="1" RowDefinitions="*,Auto,*,Auto" RowSpacing="10" Padding="10">
             <Grid.Resources>
                 <Style TargetType="{x:Type Entry}">
                     <Setter Property="FontSize" Value="20" />
@@ -68,8 +74,8 @@
 
             <!-- top value -->
             <Grid RowDefinitions="*,*">
-                <Picker ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedTopUnit}" />
-                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End" Spacing="5">
+                <Picker ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedTopUnit}" VerticalOptions="Start" />
+                <HorizontalStackLayout Grid.Row="1" Spacing="5" HorizontalOptions="End" VerticalOptions="End">
                     <Entry x:Name="txtTop" Text="" HorizontalTextAlignment="End" />
                     <Label Text="{Binding SelectedTopUnit.Abbreviation}" />
                 </HorizontalStackLayout>
@@ -80,8 +86,8 @@
 
             <!-- bottom value -->
             <Grid Grid.Row="2" RowDefinitions="*,*">
-                <Picker ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedBottomUnit}" />
-                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End" Spacing="5">
+                <Picker ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedBottomUnit}" VerticalOptions="Start" />
+                <HorizontalStackLayout Grid.Row="1" Spacing="5" HorizontalOptions="End" VerticalOptions="End">
                     <Entry x:Name="txtBottom" Text="" HorizontalTextAlignment="End" />
                     <Label Text="{Binding SelectedBottomUnit.Abbreviation}" />
                 </HorizontalStackLayout>
@@ -98,7 +104,7 @@
               ColumnDefinitions="*,*,*,*"
               ColumnSpacing="5"
               RowSpacing="5"
-              Padding="5">
+              Padding="10,0,10,10">
             <Button Grid.Row="0" Grid.Column="0" Text="7" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="0" Grid.Column="1" Text="8" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="0" Grid.Column="2" Text="9" Clicked="BtnNum_Clicked" />
