@@ -7,18 +7,18 @@
              xmlns:models="clr-namespace:UnitConverter.Models"
              xmlns:viewmodels="clr-namespace:UnitConverter.ViewModels"
              xmlns:sf="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
-             BackgroundColor="{StaticResource Gray900}"
+             BackgroundColor="{StaticResource Gray950}"
              Title="Unit Converter">
 
-    <Grid RowDefinitions="50,*,*">
+    <Grid RowDefinitions="60,*,*">
         
         <!-- tabview -->
         <sf:SfTabView x:Name="tvCategories"
                       TabBarPlacement="Top"
-                      TabBarHeight="50"
+                      TabBarHeight="60"
                       TabWidthMode="SizeToContent"
                       BackgroundColor="{StaticResource Gray700}"
-                      IndicatorBackground="{StaticResource Blue200Accent}">
+                      IndicatorBackground="{StaticResource Blue}">
 
             <sf:SfTabView.Resources>
                 <Style TargetType="sf:SfTabItem">
@@ -34,7 +34,7 @@
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
                                         <Setter Property="FontAttributes" Value="Bold" />
-                                        <Setter Property="TextColor" Value="{StaticResource Blue200Accent}" />
+                                        <Setter Property="TextColor" Value="{StaticResource Blue}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -74,11 +74,14 @@
 
             <!-- top value -->
             <Grid RowDefinitions="*,*">
-                <Picker ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedTopUnit}" VerticalOptions="Start" />
-                <HorizontalStackLayout Grid.Row="1" Spacing="5" HorizontalOptions="End" VerticalOptions="End">
-                    <Entry x:Name="txtTop" Text="" HorizontalTextAlignment="End" />
-                    <Label Text="{Binding SelectedTopUnit.Abbreviation}" />
+                <HorizontalStackLayout>
+                    <Picker x:Name="PckTop" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedTopUnit}" VerticalOptions="Center" />
+                    <ImageButton x:Name="BtnTop" Source="dropdown.png" HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Clicked="BtnTop_Clicked" />
                 </HorizontalStackLayout>
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="End">
+                    <Entry x:Name="txtTop" Text="" HorizontalTextAlignment="End" />
+                    <Label Text="{Binding SelectedTopUnit.Abbreviation}" Grid.Column="1" HorizontalOptions="End" />
+                </Grid>
             </Grid>
 
             <!-- seperator -->
@@ -86,11 +89,14 @@
 
             <!-- bottom value -->
             <Grid Grid.Row="2" RowDefinitions="*,*">
-                <Picker ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedBottomUnit}" VerticalOptions="Start" />
-                <HorizontalStackLayout Grid.Row="1" Spacing="5" HorizontalOptions="End" VerticalOptions="End">
-                    <Entry x:Name="txtBottom" Text="" HorizontalTextAlignment="End" />
-                    <Label Text="{Binding SelectedBottomUnit.Abbreviation}" />
+                <HorizontalStackLayout>
+                    <Picker x:Name="PckBottom" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedBottomUnit}" VerticalOptions="Center" />
+                    <ImageButton x:Name="BtnBottom" Source="dropdown.png" HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Clicked="BtnBottom_Clicked" />
                 </HorizontalStackLayout>
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="End">
+                    <Entry x:Name="txtBottom" Text="" HorizontalTextAlignment="End" />
+                    <Label Text="{Binding SelectedBottomUnit.Abbreviation}" Grid.Column="1" HorizontalOptions="End" />
+                </Grid>
             </Grid>
 
             <!-- seperator --> 
@@ -105,6 +111,7 @@
               ColumnSpacing="5"
               RowSpacing="5"
               Padding="10,0,10,10">
+            <!-- number buttons -->
             <Button Grid.Row="0" Grid.Column="0" Text="7" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="0" Grid.Column="1" Text="8" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="0" Grid.Column="2" Text="9" Clicked="BtnNum_Clicked" />
@@ -114,23 +121,34 @@
             <Button Grid.Row="2" Grid.Column="0" Text="1" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="2" Grid.Column="1" Text="2" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="2" Grid.Column="2" Text="3" Clicked="BtnNum_Clicked" />
-            <Button Grid.Row="3" Grid.Column="0" Text="+/-" Clicked="BtnPlusMinus_Clicked" x:Name="BtnPlusMinus" />
             <Button Grid.Row="3" Grid.Column="1" Text="0" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="3" Grid.Column="2" Text="." Clicked="BtnNum_Clicked" />
-            <ImageButton Grid.Row="0"
+            <!-- +/- button -->
+            <Button x:Name="BtnPlusMinus"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Text="+/-"
+                    TextColor="{StaticResource Blue}"
+                    Clicked="BtnPlusMinus_Clicked" />
+            <!-- back button -->
+            <ImageButton x:Name="BtnBack"
+                         Grid.Row="1"
                          Grid.Column="3"
                          CornerRadius="10"
                          Source="backspace.png"
                          Clicked="BtnBack_Clicked"
+                         IsEnabled="false"
                          BackgroundColor="{StaticResource Gray700}" />
-            <Button Grid.Row="1"
+            <!-- clear button -->
+            <Button Grid.Row="0"
                     Grid.Column="3"
                     Text="C"
                     FontSize="30"
-                    TextColor="{StaticResource Red}"
+                    TextColor="{StaticResource Blue300Accent}"
                     FontAttributes="Bold"
                     Clicked="BtnClear_Clicked"
-                    BackgroundColor="{StaticResource Gray700}" />
+                    BackgroundColor="{StaticResource BlueAccent}" />
+            <!-- up button -->
             <ImageButton x:Name="BtnUp"
                          Grid.Row="2"
                          Grid.Column="3"
@@ -138,6 +156,7 @@
                          Source="up_arrow.png"
                          Clicked="BtnUp_Clicked"
                          BackgroundColor="{StaticResource Gray700}" />
+            <!-- down button -->
             <ImageButton x:Name="BtnDown"
                          Grid.Row="3"
                          Grid.Column="3"

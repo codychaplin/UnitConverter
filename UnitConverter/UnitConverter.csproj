@@ -82,6 +82,6 @@
 	  </MauiAsset>
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionUnitConverterHideInfoBar="True" XamarinHotReloadWrongLinkerErrorInfoBarUnitConverterHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadGenericExceptionInfoBarUnitConverterHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionUnitConverterHideInfoBar="True" XamarinHotReloadWrongLinkerErrorInfoBarUnitConverterHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

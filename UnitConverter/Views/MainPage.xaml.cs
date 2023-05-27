@@ -57,6 +57,8 @@ public partial class MainPage : ContentPage
             BtnUp.IsEnabled = true;
             BtnDown.IsEnabled = true;
         }
+
+        BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry?.Text);
     }
 
     /// <summary>
@@ -118,6 +120,8 @@ public partial class MainPage : ContentPage
 
             // update CursorPosition
             FocusedEntry.CursorPosition = pos + (FocusedEntry.Text.Length - originalLength);
+
+            BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry?.Text);
 
             await UpdateOtherValue();
         }
@@ -240,6 +244,8 @@ public partial class MainPage : ContentPage
             FocusedEntry.Text = text;
         }
 
+        BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry?.Text);
+
         await UpdateOtherValue();
     }
 
@@ -260,6 +266,7 @@ public partial class MainPage : ContentPage
     {
         txtTop.Text = "";
         txtBottom.Text = "";
+        BtnBack.IsEnabled = false;
 
         if (FocusedEntry != null)
             FocusedEntry.Text = "";
@@ -283,5 +290,17 @@ public partial class MainPage : ContentPage
     void BtnDown_Clicked(object sender, EventArgs e)
     {
         txtBottom.Focus();
+    }
+
+    private void BtnTop_Clicked(object sender, EventArgs e)
+    {
+        PckTop.Unfocus();
+        PckTop.Focus();
+    }
+
+    private void BtnBottom_Clicked(object sender, EventArgs e)
+    {
+        PckBottom.Unfocus();
+        PckBottom.Focus();
     }
 }
