@@ -75,8 +75,10 @@
             <!-- top value -->
             <Grid RowDefinitions="*,*">
                 <HorizontalStackLayout>
-                    <Picker x:Name="PckTop" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedTopUnit}" VerticalOptions="Center" />
-                    <ImageButton x:Name="BtnTop" Source="dropdown.png" HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Clicked="BtnTop_Clicked" />
+                    <Picker x:Name="PckTop" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedTopUnit}"
+                            VerticalOptions="Center" SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                    <ImageButton x:Name="BtnTop" Source="dropdown.png" HeightRequest="30" WidthRequest="30"
+                                 VerticalOptions="Center" Clicked="BtnTop_Clicked" />
                 </HorizontalStackLayout>
                 <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="End">
                     <Entry x:Name="txtTop" Text="" HorizontalTextAlignment="End" />
@@ -90,8 +92,10 @@
             <!-- bottom value -->
             <Grid Grid.Row="2" RowDefinitions="*,*">
                 <HorizontalStackLayout>
-                    <Picker x:Name="PckBottom" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedBottomUnit}" VerticalOptions="Center" />
-                    <ImageButton x:Name="BtnBottom" Source="dropdown.png" HeightRequest="30" WidthRequest="30" VerticalOptions="Center" Clicked="BtnBottom_Clicked" />
+                    <Picker x:Name="PckBottom" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedBottomUnit}"
+                            VerticalOptions="Center" SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                    <ImageButton x:Name="BtnBottom" Source="dropdown.png" HeightRequest="30" WidthRequest="30"
+                                 VerticalOptions="Center" Clicked="BtnBottom_Clicked" />
                 </HorizontalStackLayout>
                 <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="End">
                     <Entry x:Name="txtBottom" Text="" HorizontalTextAlignment="End" />

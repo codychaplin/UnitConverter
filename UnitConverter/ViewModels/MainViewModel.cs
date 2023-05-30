@@ -71,8 +71,20 @@ public partial class MainViewModel : ObservableObject
             decimal num = decimal.Parse(numString);
             decimal otherNum = ConvertValue(num, isTop);
 
-            // format to 10 decimal places
-            string formattedNum = otherNum.ToString("#,##0.##########");
+            // if too small, convert to scientific notation
+            string formattedNum;
+            if ((otherNum < 0.0000000001m && otherNum > 0) || 
+                (otherNum > -0.0000000001m && otherNum < 0))
+            {
+                formattedNum = otherNum.ToString("E7");
+                return formattedNum;
+            }
+            
+            // format
+            formattedNum = otherNum.ToString("#,##0.##########");
+            if (formattedNum.Replace(",", "").Length > 15)
+                formattedNum = otherNum.ToString("E7");
+            
             return formattedNum;
         }
         catch (Exception ex)

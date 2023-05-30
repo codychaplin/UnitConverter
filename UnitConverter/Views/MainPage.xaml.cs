@@ -1,4 +1,5 @@
 ﻿using Syncfusion.Maui.TabView;
+using System.Globalization;
 using UnitConverter.Models;
 using UnitConverter.ViewModels;
 
@@ -8,6 +9,7 @@ public partial class MainPage : ContentPage
 {
     MainViewModel vm;
     Entry FocusedEntry = null;
+    bool canUpdate = true;
 
     public MainPage(MainViewModel _vm)
 	{
@@ -19,19 +21,27 @@ public partial class MainPage : ContentPage
         txtTop.Unfocused += Entry_Unfocused;
         txtBottom.Focused += Entry_Focused;
         txtBottom.Unfocused += Entry_Unfocused;
-        tvCategories.SelectionChanged += Changed;
+        tvCategories.SelectionChanged += TabSelectionChanged;
 
         tvCategories.SelectedIndex = 0;
     }
 
-    async void Changed(object sender, TabSelectionChangedEventArgs e)
+    async void TabSelectionChanged(object sender, TabSelectionChangedEventArgs e)
     {
         // tabs are in same order as Category Enum
         int newIndex = (int)e.NewIndex;
+        canUpdate = false;
         await vm.ChangeCategory(newIndex);
+        canUpdate = true;
         ClearText();
 
         BtnPlusMinus.IsEnabled = (Category)newIndex == Category.Temperature;
+    }
+
+    async void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (canUpdate)
+            await UpdateOtherValue();
     }
 
     void Entry_Focused(object sender, EventArgs e)
@@ -54,8 +64,7 @@ public partial class MainPage : ContentPage
         else
         {
             FocusedEntry = null;
-            BtnUp.IsEnabled = true;
-            BtnDown.IsEnabled = true;
+            UpdateUpDownButtons(true, true);
         }
 
         BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry?.Text);
@@ -68,9 +77,14 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     void Entry_Unfocused(object sender, EventArgs e)
     {
-        FocusedEntry = null;
-        BtnUp.IsEnabled = true;
-        BtnDown.IsEnabled = true;
+        //FocusedEntry = null;
+        UpdateUpDownButtons(true, true);
+    }
+
+    void UpdateUpDownButtons(bool up, bool down)
+    {
+        BtnUp.IsEnabled = up;
+        BtnDown.IsEnabled = down;
     }
 
     /// <summary>
@@ -101,27 +115,42 @@ public partial class MainPage : ContentPage
             int originalLength = text.Length;
             int pos = FocusedEntry.CursorPosition;
 
+            // can't edit scientific notation values
+            if (text.Contains('E'))
+                throw new ArgumentException("Scientific Notation values are read-only");
+            
             // validatation
             if (text.Contains('.'))
             {
-                if (text.Split('.')[1].Length > 10) // can't have > 10 digits after decimal
-                    throw new ArgumentException("Can't enter more than 10 digits");
+                if (text.Split('.')[1].Length >= 10) // can't have > 10 digits after decimal
+                    throw new ArgumentException("Can't enter more than 10 digits after decimal");
                 if (num == ".") // only allow one decimal
                     return;
             }
-            if (text.Length > 16)
-                throw new ArgumentException("Can't enter more than 16 digits"); // can't be over 16 digits in total
+            if (text.Replace(",", "").Length >= 15)
+                throw new ArgumentException("Can't enter more than 15 digits"); // can't be over 15 digits in total
 
             // update text
             text = text.Insert(pos, num);
 
             // if last char is not a decimal, remove all ',' and format string
-            FocusedEntry.Text = (text[^1] != '.') ? decimal.Parse(text.Replace(",", "")).ToString("#,##0.##########") : text;
+            if (text[^1] != '.')
+            {
+                decimal tempNum = decimal.Parse(text.Replace(",", ""));
+                if (tempNum == 0 && !text.All(c => c == '0'))
+                    FocusedEntry.Text = text;
+                else if (text.Contains('.') && text[^1] == '0')
+                    FocusedEntry.Text = text;
+                else
+                    FocusedEntry.Text = tempNum.ToString("#,##0.##########");
+            }
+            else
+                FocusedEntry.Text = text;
 
             // update CursorPosition
             FocusedEntry.CursorPosition = pos + (FocusedEntry.Text.Length - originalLength);
 
-            BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry?.Text);
+            BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry.Text);
 
             await UpdateOtherValue();
         }
@@ -140,6 +169,9 @@ public partial class MainPage : ContentPage
     /// </summary>
     async Task UpdateOtherValue()
     {
+        if (FocusedEntry == null)
+            return;
+
         if (string.IsNullOrEmpty(FocusedEntry.Text))
         {
             ClearText();
@@ -191,62 +223,95 @@ public partial class MainPage : ContentPage
     }
 
     /// <summary>
-    /// Removes character at cursor.
+    /// Removes character(s) at cursor.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     async void BtnBack_Clicked(object sender, EventArgs e)
     {
-        if (FocusedEntry is null)
-            return;
-
-        // cache CursorPosition, Text, and Length
-        int pos = FocusedEntry.CursorPosition;
-        string text = FocusedEntry.Text;
-        int originalLength = text.Length;
-
-        // if at beginning or text is empty, return
-        if (pos == 0 || string.IsNullOrEmpty(text))
-            return;
-
-        // update pos and text
-        pos -= 1;
-        if (text.ElementAt(pos) == ',')
-            pos -= 1;
-        text = text.Remove(pos, 1);
-
-        if (text.Length > 0)
+        try
         {
-            // trim leading ','
-            if (text.StartsWith(','))
-                text = text.TrimStart(',');
+            if (FocusedEntry is null)
+                return;
 
-            // if text is only "-", skip formatting
-            if (text == "-")
+            // cache starting values
+            int pos = FocusedEntry.CursorPosition;
+            string text = FocusedEntry.Text;
+            int originalLength = text.Length;
+            int selectionLength = FocusedEntry.SelectionLength;
+
+            // can't edit scientific notation values
+            if (text.Contains('E'))
+                throw new ArgumentException("Scientific Notation values are read-only");
+
+            // if at beginning or text is empty, return
+            if ((pos == 0 && selectionLength < 1) || string.IsNullOrEmpty(text))
+                return;
+
+            // get comma count before cursor
+            int commaCountBefore = text[..pos--].Count(c => c == ',');
+
+            
+            if (selectionLength > 0)
             {
-                FocusedEntry.Text = text;
-                FocusedEntry.CursorPosition = 1;
+                // remove characters at cursor position based on selection length
+                pos++;
+                text = text.Remove(pos, selectionLength);
             }
             else
             {
-                // format text
-                FocusedEntry.Text = decimal.Parse(text).ToString("#,##0.##########");
-
-                // update CursorPosition
-                if (FocusedEntry.Text.Length <= originalLength - 2)
-                    FocusedEntry.CursorPosition = (pos < 1) ? pos : pos - 1;
-                else
-                    FocusedEntry.CursorPosition = pos;
+                // remove character at cursor position (if ',' remove character before)
+                text = (text[pos] == ',') ? text.Remove(pos - 1, 1) : text.Remove(pos, 1);
+                if (text.Length > 0 && text[0] == ',')
+                    text = text.Remove(0, 1);
             }
-        }
-        else
-        {
+
+            // try to parse new text
+            NumberStyles style = NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands;
+            if (decimal.TryParse(text, style, CultureInfo.InvariantCulture, out decimal result))
+            {
+                // format result
+                if (text.Contains('.'))
+                {
+                    // format number left of decimal
+                    var beforeDecimal = Math.Floor(result).ToString("#,##0");
+                    var afterDecimal = text.Split('.')[1];
+                    string formattedNum = $"{beforeDecimal}.{afterDecimal}";
+                    text = formattedNum;
+                }
+                else
+                    text = result.ToString("#,##0");
+            }
+
+            // get comma count after change, update cursor position accordingly
+            int commaCountAfter;
+            if (text.Length > 0 && pos > text.Length - 1)
+                commaCountAfter = text[..(text.Length - 1)].Count(c => c == ',');
+            else if (pos < 0)
+                commaCountAfter = 0;
+            else
+                commaCountAfter = text[..pos].Count(c => c == ',');
+            if (commaCountAfter > commaCountBefore)
+                pos++;
+            else if (commaCountAfter < commaCountBefore)
+                pos--;
+
+            // update text and cursor position
             FocusedEntry.Text = text;
+            FocusedEntry.CursorPosition = pos;
+
+            BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry?.Text);
+
+            await UpdateOtherValue();
         }
-
-        BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry?.Text);
-
-        await UpdateOtherValue();
+        catch (ArgumentException ex)
+        {
+            await Shell.Current.DisplayAlert("", ex.Message, "OK");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+        }
     }
 
     /// <summary>
@@ -279,6 +344,7 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     void BtnUp_Clicked(object sender, EventArgs e)
     {
+        txtTop.Unfocus();
         txtTop.Focus();
     }
 
@@ -289,15 +355,26 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     void BtnDown_Clicked(object sender, EventArgs e)
     {
+        txtBottom.Unfocus();
         txtBottom.Focus();
     }
 
+    /// <summary>
+    /// Opens top Unit picker.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void BtnTop_Clicked(object sender, EventArgs e)
     {
         PckTop.Unfocus();
         PckTop.Focus();
     }
 
+    /// <summary>
+    /// Opens bottom Unit picker.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void BtnBottom_Clicked(object sender, EventArgs e)
     {
         PckBottom.Unfocus();
