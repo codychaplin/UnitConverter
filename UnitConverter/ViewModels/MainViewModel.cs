@@ -43,8 +43,9 @@ public partial class MainViewModel : ObservableObject
             Units = new(units);
 
             // sets base value as top and next as bottom
-            var topUnit = Units.FirstOrDefault(u => u.ToBase == 1);
-            var bottomUnit = Units[Units.IndexOf(topUnit) + 1];
+            Unit topUnit = Units.FirstOrDefault(u => u.ToBase == 1);
+            Unit bottomUnit = Units[Units.IndexOf(topUnit) + 1];
+
             SelectedTopUnit = topUnit;
             SelectedBottomUnit = bottomUnit;
         }
@@ -99,33 +100,39 @@ public partial class MainViewModel : ObservableObject
         decimal otherNum = 0;
         decimal baseValue = 0;
 
+        if (SelectedUnitCategory == Category.Temperature)
+            ConvertTemperature(num, isTop, ref baseValue, ref otherNum);
+        else
+            ConvertElse(num, isTop, ref baseValue, ref otherNum);
+
+        return otherNum;
+    }
+
+    void ConvertTemperature(decimal num, bool isTop, ref decimal baseValue, ref decimal otherNum)
+    {
         if (isTop)
         {
-            if (SelectedUnitCategory == Category.Temperature)
-            {
-                baseValue = (num - SelectedTopUnit.Offset.GetValueOrDefault()) * SelectedTopUnit.ToBase;
-                otherNum = (baseValue / SelectedBottomUnit.ToBase) + SelectedBottomUnit.Offset.GetValueOrDefault();
-            }
-            else
-            {
-                baseValue = num * SelectedTopUnit.ToBase;
-                otherNum = baseValue / SelectedBottomUnit.ToBase;
-            }
+            baseValue = (num - SelectedTopUnit.Offset.GetValueOrDefault()) * SelectedTopUnit.ToBase;
+            otherNum = (baseValue / SelectedBottomUnit.ToBase) + SelectedBottomUnit.Offset.GetValueOrDefault();
         }
         else
         {
-            if (SelectedUnitCategory == Category.Temperature)
-            {
-                baseValue = (num - SelectedBottomUnit.Offset.GetValueOrDefault()) * SelectedBottomUnit.ToBase;
-                otherNum = (baseValue / SelectedTopUnit.ToBase) + SelectedTopUnit.Offset.GetValueOrDefault();
-            }
-            else
-            {
-                baseValue = num * SelectedBottomUnit.ToBase;
-                otherNum = baseValue / SelectedTopUnit.ToBase;
-            }
+            baseValue = (num - SelectedBottomUnit.Offset.GetValueOrDefault()) * SelectedBottomUnit.ToBase;
+            otherNum = (baseValue / SelectedTopUnit.ToBase) + SelectedTopUnit.Offset.GetValueOrDefault();
         }
+    }
 
-        return otherNum;
+    void ConvertElse(decimal num, bool isTop, ref decimal baseValue, ref decimal otherNum)
+    {
+        if (isTop)
+        {
+            baseValue = num * SelectedTopUnit.ToBase;
+            otherNum = baseValue / SelectedBottomUnit.ToBase;
+        }
+        else
+        {
+            baseValue = num * SelectedBottomUnit.ToBase;
+            otherNum = baseValue / SelectedTopUnit.ToBase;
+        }
     }
 }

@@ -1,0 +1,77 @@
+[
+  {
+    "Name": "Joules",
+    "Abbreviation": "J",
+    "ToBase": 1
+  },
+  {
+    "Name": "Kilojoules",
+    "Abbreviation": "kJ",
+    "ToBase": 1000
+  },
+  {
+    "Name": "Megajoules",
+    "Abbreviation": "MJ",
+    "ToBase": 1000000
+  },
+  {
+    "Name": "Gigajoules",
+    "Abbreviation": "GJ",
+    "ToBase": 1000000000
+  },
+  {
+    "Name": "Watt-Hours",
+    "Abbreviation": "Wh",
+    "ToBase": 3600
+  },
+  {
+    "Name": "Kilowatt-Hours",
+    "Abbreviation": "kWh",
+    "ToBase": 3600000
+  },
+  {
+    "Name": "Megawatt-Hours",
+    "Abbreviation": "MWh",
+    "ToBase": 3600000000
+  },
+  {
+    "Name": "Gigawatt-Hours",
+    "Abbreviation": "GWh",
+    "ToBase": 3600000000000
+  },
+  {
+    "Name": "Calories",
+    "Abbreviation": "cal",
+    "ToBase": 4.184
+  },
+  {
+    "Name": "Kilocalories",
+    "Abbreviation": "kcal",
+    "ToBase": 4184
+  },
+  {
+    "Name": "British Thermal Units",
+    "Abbreviation": "BTU",
+    "ToBase": 1055.06
+  },
+  {
+    "Name": "Electronvolts",
+    "Abbreviation": "eV",
+    "ToBase": 1.60218e-19
+  },
+  {
+    "Name": "Kilotons",
+    "Abbreviation": "kt",
+    "ToBase": 4.184e12
+  },
+  {
+    "Name": "Megatons",
+    "Abbreviation": "Mt",
+    "ToBase": 4.184e15
+  },
+  {
+    "Name": "Gigatons",
+    "Abbreviation": "Gt",
+    "ToBase": 4.184e18
+  }
+]

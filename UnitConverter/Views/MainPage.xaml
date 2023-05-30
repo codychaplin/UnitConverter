@@ -10,10 +10,10 @@
              BackgroundColor="{StaticResource Gray950}"
              Title="Unit Converter">
 
-    <Grid RowDefinitions="60,*,*">
+    <Grid RowDefinitions="60,*,Auto,*">
         
         <!-- tabview -->
-        <sf:SfTabView x:Name="tvCategories"
+        <sf:SfTabView x:Name="tabCategories"
                       TabBarPlacement="Top"
                       TabBarHeight="60"
                       TabWidthMode="SizeToContent"
@@ -48,10 +48,12 @@
                 <sf:SfTabItem Header="Length" />
                 <sf:SfTabItem Header="Mass" />
                 <sf:SfTabItem Header="Temperature" />
+                <sf:SfTabItem Header="Volume" />
+                <sf:SfTabItem Header="Area" />
+                <sf:SfTabItem Header="Speed" />
                 <sf:SfTabItem Header="Time" />
                 <sf:SfTabItem Header="Data" />
-                <sf:SfTabItem Header="Area" />
-                <sf:SfTabItem Header="Volume" />
+                <sf:SfTabItem Header="Energy" />
             </sf:SfTabView.Items>
         </sf:SfTabView>
         
@@ -108,8 +110,24 @@
 
         </Grid>
         
+        <!-- hex numpad -->
+        <Grid x:Name="GrdHex"
+              Grid.Row="2"
+              ColumnDefinitions="*,*,*,*,*,*"
+              ColumnSpacing="5"
+              Padding="10,0,10,5"
+              IsVisible="false">
+            <Button Grid.Column="0" Text="A" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
+            <Button Grid.Column="1" Text="B" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
+            <Button Grid.Column="2" Text="C" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
+            <Button Grid.Column="3" Text="D" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
+            <Button Grid.Column="4" Text="E" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
+            <Button Grid.Column="5" Text="F" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
+        </Grid>
+        
         <!-- numpad -->
-        <Grid Grid.Row="2"
+        <Grid x:Name="GrdNumPad"
+              Grid.Row="3"
               RowDefinitions="*,*,*,*"
               ColumnDefinitions="*,*,*,*"
               ColumnSpacing="5"
@@ -126,7 +144,7 @@
             <Button Grid.Row="2" Grid.Column="1" Text="2" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="2" Grid.Column="2" Text="3" Clicked="BtnNum_Clicked" />
             <Button Grid.Row="3" Grid.Column="1" Text="0" Clicked="BtnNum_Clicked" />
-            <Button Grid.Row="3" Grid.Column="2" Text="." Clicked="BtnNum_Clicked" />
+            <Button Grid.Row="3" Grid.Column="2" Text="." Clicked="BtnNum_Clicked" x:Name="BtnDecimal" />
             <!-- +/- button -->
             <Button x:Name="BtnPlusMinus"
                     Grid.Row="3"

@@ -1,5 +1,5 @@
-﻿using Syncfusion.Maui.TabView;
-using System.Globalization;
+﻿using System.Globalization;
+using Syncfusion.Maui.TabView;
 using UnitConverter.Models;
 using UnitConverter.ViewModels;
 
@@ -21,11 +21,16 @@ public partial class MainPage : ContentPage
         txtTop.Unfocused += Entry_Unfocused;
         txtBottom.Focused += Entry_Focused;
         txtBottom.Unfocused += Entry_Unfocused;
-        tvCategories.SelectionChanged += TabSelectionChanged;
+        tabCategories.SelectionChanged += TabSelectionChanged;
 
-        tvCategories.SelectedIndex = 0;
+        tabCategories.SelectedIndex = 0;
     }
 
+    /// <summary>
+    /// Update category based on tab index.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     async void TabSelectionChanged(object sender, TabSelectionChangedEventArgs e)
     {
         // tabs are in same order as Category Enum
@@ -35,15 +40,30 @@ public partial class MainPage : ContentPage
         canUpdate = true;
         ClearText();
 
+        // only enable +/- button for temperature
         BtnPlusMinus.IsEnabled = (Category)newIndex == Category.Temperature;
+
+        // focus on top Entry by default
+        txtTop.Unfocus();
+        txtTop.Focus();
     }
 
+    /// <summary>
+    /// When unit is changed, update conversion.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     async void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (canUpdate)
             await UpdateOtherValue();
     }
 
+    /// <summary>
+    /// Sets FocusedEntry and updates corresponding button.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     void Entry_Focused(object sender, EventArgs e)
     {
         // get entry Id
@@ -77,10 +97,14 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     void Entry_Unfocused(object sender, EventArgs e)
     {
-        //FocusedEntry = null;
         UpdateUpDownButtons(true, true);
     }
 
+    /// <summary>
+    /// Updates up/down button clickability.
+    /// </summary>
+    /// <param name="up"></param>
+    /// <param name="down"></param>
     void UpdateUpDownButtons(bool up, bool down)
     {
         BtnUp.IsEnabled = up;
@@ -291,6 +315,7 @@ public partial class MainPage : ContentPage
                 commaCountAfter = 0;
             else
                 commaCountAfter = text[..pos].Count(c => c == ',');
+
             if (commaCountAfter > commaCountBefore)
                 pos++;
             else if (commaCountAfter < commaCountBefore)
@@ -300,7 +325,7 @@ public partial class MainPage : ContentPage
             FocusedEntry.Text = text;
             FocusedEntry.CursorPosition = pos;
 
-            BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry?.Text);
+            BtnBack.IsEnabled = !string.IsNullOrEmpty(FocusedEntry.Text);
 
             await UpdateOtherValue();
         }

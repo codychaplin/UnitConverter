@@ -1,0 +1,62 @@
+[
+  {
+    "Name": "Millimeters per Second",
+    "Abbreviation": "mm/s",
+    "ToBase": 0.001
+  },
+  {
+    "Name": "Centimeters per Second",
+    "Abbreviation": "cm/s",
+    "ToBase": 0.01
+  },
+  {
+    "Name": "Meters per Second",
+    "Abbreviation": "m/s",
+    "ToBase": 1
+  },
+  {
+    "Name": "Kilometers per Second",
+    "Abbreviation": "km/s",
+    "ToBase": 1000
+  },
+  {
+    "Name": "Kilometers per Hour",
+    "Abbreviation": "km/h",
+    "ToBase": 0.27777777777778
+  },
+  {
+    "Name": "Miles per Hour",
+    "Abbreviation": "mph",
+    "ToBase": 0.44704
+  },
+  {
+    "Name": "Knots",
+    "Abbreviation": "kt",
+    "ToBase": 0.51444444444444
+  },
+  {
+    "Name": "Feet per Second",
+    "Abbreviation": "ft/s",
+    "ToBase": 0.3048
+  },
+  {
+    "Name": "Yards per Second",
+    "Abbreviation": "yd/s",
+    "ToBase": 0.9144
+  },
+  {
+    "Name": "Miles per Second",
+    "Abbreviation": "mi/s",
+    "ToBase": 1609.344
+  },
+  {
+    "Name": "Mach",
+    "Abbreviation": "mach",
+    "ToBase": 343
+  },
+  {
+    "Name": "Speed of Light",
+    "Abbreviation": "c",
+    "ToBase": 299792458
+  }
+]

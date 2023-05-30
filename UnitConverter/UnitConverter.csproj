@@ -48,7 +48,9 @@
 	<ItemGroup>
 	  <None Remove="Resources\Raw\Area.json" />
 	  <None Remove="Resources\Raw\Data.json" />
+	  <None Remove="Resources\Raw\Energy.json" />
 	  <None Remove="Resources\Raw\Mass.json" />
+	  <None Remove="Resources\Raw\Speed.json" />
 	  <None Remove="Resources\Raw\Temperature.json" />
 	  <None Remove="Resources\Raw\Time.json" />
 	  <None Remove="Resources\Raw\Volume.json" />
@@ -62,6 +64,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiAsset Update="Resources\Raw\Energy.json">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\Speed.json">
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
 	  <MauiAsset Update="Resources\Raw\Data.json">
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>

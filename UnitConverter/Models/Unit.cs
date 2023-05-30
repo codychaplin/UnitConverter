@@ -18,8 +18,10 @@ public enum Category
     Length,
     Mass,
     Temperature,
+    Volume,
+    Area,
+    Speed,
     Time,
     Data,
-    Area,
-    Volume
+    Energy
 }
