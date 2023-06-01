@@ -57,6 +57,20 @@ public partial class MainPage : ContentPage
     {
         if (canUpdate)
             await UpdateOtherValue();
+
+
+        // delay briefly and refocus on Entry
+        await Task.Delay(250);
+        if (FocusedEntry?.Id == txtTop.Id)
+        {
+            txtTop.Unfocus();
+            txtTop.Focus();
+        }
+        else if (FocusedEntry?.Id == txtBottom.Id)
+        {
+            txtBottom.Unfocus();
+            txtBottom.Focus();
+        }
     }
 
     /// <summary>
@@ -98,17 +112,6 @@ public partial class MainPage : ContentPage
     void Entry_Unfocused(object sender, EventArgs e)
     {
         UpdateUpDownButtons(true, true);
-    }
-
-    /// <summary>
-    /// Updates up/down button clickability.
-    /// </summary>
-    /// <param name="up"></param>
-    /// <param name="down"></param>
-    void UpdateUpDownButtons(bool up, bool down)
-    {
-        BtnUp.IsEnabled = up;
-        BtnDown.IsEnabled = down;
     }
 
     /// <summary>
@@ -157,10 +160,22 @@ public partial class MainPage : ContentPage
             // update text
             text = text.Insert(pos, num);
 
-            // if last char is not a decimal, remove all ',' and format string
+            // if just "." or "-." skip formatting
+            if (text == "." || text == "-.")
+            {
+                FocusedEntry.Text = text;
+                FocusedEntry.CursorPosition = 1;
+                return;
+            }
+
+            // if last char is not a decimal, format string accordingly
             if (text[^1] != '.')
             {
-                decimal tempNum = decimal.Parse(text.Replace(",", ""));
+                if (text.Length > 1 && text[0] == '0' && text[1] != '.')
+                    text = text.Remove(0, 1);
+
+                NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
+                decimal tempNum = decimal.Parse(text, style);
                 if (tempNum == 0 && !text.All(c => c == '0'))
                     FocusedEntry.Text = text;
                 else if (text.Contains('.') && text[^1] == '0')
@@ -274,7 +289,6 @@ public partial class MainPage : ContentPage
 
             // get comma count before cursor
             int commaCountBefore = text[..pos--].Count(c => c == ',');
-
             
             if (selectionLength > 0)
             {
@@ -337,6 +351,17 @@ public partial class MainPage : ContentPage
         {
             await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
         }
+    }
+
+    /// <summary>
+    /// Updates up/down button clickability.
+    /// </summary>
+    /// <param name="up"></param>
+    /// <param name="down"></param>
+    void UpdateUpDownButtons(bool up, bool down)
+    {
+        BtnUp.IsEnabled = up;
+        BtnDown.IsEnabled = down;
     }
 
     /// <summary>

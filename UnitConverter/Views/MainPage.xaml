@@ -7,10 +7,11 @@
              xmlns:models="clr-namespace:UnitConverter.Models"
              xmlns:viewmodels="clr-namespace:UnitConverter.ViewModels"
              xmlns:sf="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+             xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
              BackgroundColor="{StaticResource Gray950}"
              Title="Unit Converter">
 
-    <Grid RowDefinitions="60,*,Auto,*">
+    <Grid RowDefinitions="60,*,Auto,*,Auto">
         
         <!-- tabview -->
         <sf:SfTabView x:Name="tabCategories"
@@ -187,6 +188,13 @@
                          Clicked="BtnDown_Clicked"
                          BackgroundColor="{StaticResource Gray700}" />
         </Grid>
+
+        <controls:MTAdView Grid.Row="4"
+                           AdsId="ca-app-pub-3940256099942544/6300978111"
+                           AdSize="Banner"
+                           IsVisible="true"
+                           VerticalOptions="End"
+                           BackgroundColor="Transparent" />
     </Grid>
 
 </ContentPage>

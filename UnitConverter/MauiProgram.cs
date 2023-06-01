@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Plugin.MauiMTAdmob;
 using Syncfusion.Maui.Core.Hosting;
 using UnitConverter.Views;
 using UnitConverter.Services;
@@ -15,6 +16,7 @@ public static class MauiProgram
 			.UseMauiApp<App>()
             .UseMauiCommunityToolkit()
             .ConfigureSyncfusionCore()
+            .UseMauiMTAdmob()
             .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
