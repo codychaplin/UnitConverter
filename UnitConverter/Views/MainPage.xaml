@@ -6,9 +6,10 @@
              xmlns:views="clr-namespace:UnitConverter.Views"
              xmlns:models="clr-namespace:UnitConverter.Models"
              xmlns:viewmodels="clr-namespace:UnitConverter.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:sf="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
              xmlns:controls="clr-namespace:Plugin.MauiMTAdmob.Controls;assembly=Plugin.MauiMTAdmob"
-             BackgroundColor="{StaticResource Gray950}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}"
              Title="Unit Converter">
 
     <Grid RowDefinitions="60,*,Auto,*,Auto">
@@ -18,8 +19,8 @@
                       TabBarPlacement="Top"
                       TabBarHeight="60"
                       TabWidthMode="SizeToContent"
-                      BackgroundColor="{StaticResource Gray700}"
-                      IndicatorBackground="{StaticResource Blue}">
+                      BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray700}}"
+                      IndicatorBackground="{AppThemeBinding Light={StaticResource BlueAccent}, Dark={StaticResource Blue}}">
 
             <sf:SfTabView.Resources>
                 <Style TargetType="sf:SfTabItem">
@@ -29,13 +30,13 @@
                                 <VisualState x:Name="Normal" >
                                     <VisualState.Setters>
                                         <Setter Property="FontAttributes" Value="None" />
-                                        <Setter Property="TextColor" Value="{StaticResource Gray200}" />
+                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Gray200}}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
                                         <Setter Property="FontAttributes" Value="Bold" />
-                                        <Setter Property="TextColor" Value="{StaticResource Blue}" />
+                                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource BlueAccent}, Dark={StaticResource Blue}}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -81,7 +82,11 @@
                     <Picker x:Name="PckTop" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedTopUnit}"
                             VerticalOptions="Center" SelectedIndexChanged="Picker_SelectedIndexChanged" />
                     <ImageButton x:Name="BtnTop" Source="dropdown.png" HeightRequest="30" WidthRequest="30"
-                                 VerticalOptions="Center" Clicked="BtnTop_Clicked" />
+                                 VerticalOptions="Center" Clicked="BtnTop_Clicked">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
                 </HorizontalStackLayout>
                 <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="End">
                     <Entry x:Name="txtTop" Text="" HorizontalTextAlignment="End" />
@@ -90,7 +95,7 @@
             </Grid>
 
             <!-- seperator -->
-            <BoxView Grid.Row="1" HeightRequest="1" Color="#44ffffff" />
+            <BoxView Grid.Row="1" HeightRequest="1" Color="{AppThemeBinding Light='#44000000', Dark='#44ffffff'}" />
 
             <!-- bottom value -->
             <Grid Grid.Row="2" RowDefinitions="*,*">
@@ -98,7 +103,11 @@
                     <Picker x:Name="PckBottom" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedBottomUnit}"
                             VerticalOptions="Center" SelectedIndexChanged="Picker_SelectedIndexChanged" />
                     <ImageButton x:Name="BtnBottom" Source="dropdown.png" HeightRequest="30" WidthRequest="30"
-                                 VerticalOptions="Center" Clicked="BtnBottom_Clicked" />
+                                 VerticalOptions="Center" Clicked="BtnBottom_Clicked">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
                 </HorizontalStackLayout>
                 <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="End">
                     <Entry x:Name="txtBottom" Text="" HorizontalTextAlignment="End" />
@@ -106,8 +115,8 @@
                 </Grid>
             </Grid>
 
-            <!-- seperator --> 
-            <BoxView Grid.Row="3" HeightRequest="1" Color="#44ffffff" />
+            <!-- seperator -->
+            <BoxView Grid.Row="3" HeightRequest="1" Color="{AppThemeBinding Light='#44000000', Dark='#44ffffff'}" />
 
         </Grid>
         
@@ -151,7 +160,7 @@
                     Grid.Row="3"
                     Grid.Column="0"
                     Text="+/-"
-                    TextColor="{StaticResource Blue}"
+                    TextColor="{AppThemeBinding Light={StaticResource BlueAccent}, Dark={StaticResource Blue}}"
                     Clicked="BtnPlusMinus_Clicked" />
             <!-- back button -->
             <ImageButton x:Name="BtnBack"
@@ -161,16 +170,20 @@
                          Source="backspace.png"
                          Clicked="BtnBack_Clicked"
                          IsEnabled="false"
-                         BackgroundColor="{StaticResource Gray700}" />
+                         BackgroundColor="{AppThemeBinding Light={StaticResource Blue400Accent}, Dark={StaticResource Gray700}}">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource BlueAccent}, Dark={StaticResource Blue}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
             <!-- clear button -->
             <Button Grid.Row="0"
                     Grid.Column="3"
                     Text="C"
                     FontSize="30"
-                    TextColor="{StaticResource Blue300Accent}"
+                    TextColor="{AppThemeBinding Light={StaticResource BlueAccent}, Dark={StaticResource Blue300Accent}}"
                     FontAttributes="Bold"
                     Clicked="BtnClear_Clicked"
-                    BackgroundColor="{StaticResource BlueAccent}" />
+                    BackgroundColor="{AppThemeBinding Light={StaticResource Blue300Accent}, Dark={StaticResource BlueAccent}}" />
             <!-- up button -->
             <ImageButton x:Name="BtnUp"
                          Grid.Row="2"
@@ -178,7 +191,11 @@
                          CornerRadius="10"
                          Source="up_arrow.png"
                          Clicked="BtnUp_Clicked"
-                         BackgroundColor="{StaticResource Gray700}" />
+                         BackgroundColor="{AppThemeBinding Light={StaticResource Blue400Accent}, Dark={StaticResource Gray700}}">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource BlueAccent}, Dark={StaticResource Blue}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
             <!-- down button -->
             <ImageButton x:Name="BtnDown"
                          Grid.Row="3"
@@ -186,7 +203,11 @@
                          CornerRadius="10"
                          Source="down_arrow.png"
                          Clicked="BtnDown_Clicked"
-                         BackgroundColor="{StaticResource Gray700}" />
+                         BackgroundColor="{AppThemeBinding Light={StaticResource Blue400Accent}, Dark={StaticResource Gray700}}">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource BlueAccent}, Dark={StaticResource Blue}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
         </Grid>
 
         <controls:MTAdView Grid.Row="4"
