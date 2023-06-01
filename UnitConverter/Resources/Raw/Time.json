@@ -42,11 +42,11 @@
   {
     "Name": "Months",
     "Abbreviation": "mo",
-    "ToBase": 2629800
+    "ToBase": 2628000
   },
   {
     "Name": "Years",
     "Abbreviation": "yr",
-    "ToBase": 31557600
+    "ToBase": 31536000
   }
 ]
