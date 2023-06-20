@@ -31,10 +31,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
 	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidSigningStorePass>apps-pherda</AndroidSigningStorePass>
-	  <AndroidSigningKeyAlias>unitconverter-key</AndroidSigningKeyAlias>
-	  <AndroidSigningKeyPass>key-unitconverter</AndroidSigningKeyPass>
+	  <AndroidKeyStore>False</AndroidKeyStore>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
@@ -44,6 +41,7 @@
 	  <AndroidSigningStorePass>apps-pherda</AndroidSigningStorePass>
 	  <AndroidSigningKeyAlias>unitconverter-key</AndroidSigningKeyAlias>
 	  <AndroidSigningKeyPass>key-unitconverter</AndroidSigningKeyPass>
+	  <RunAOTCompilation>False</RunAOTCompilation>
 	</PropertyGroup>
 
 	<ItemGroup>

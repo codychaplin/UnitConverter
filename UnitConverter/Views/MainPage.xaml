@@ -12,7 +12,7 @@
              BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}"
              Title="Unit Converter">
 
-    <Grid RowDefinitions="60,*,Auto,*,Auto">
+    <Grid RowDefinitions="60,*,*,Auto">
         
         <!-- tabview -->
         <sf:SfTabView x:Name="tabCategories"
@@ -27,7 +27,7 @@
                     <Setter Property="VisualStateManager.VisualStateGroups">
                         <VisualStateGroupList>
                             <VisualStateGroup>
-                                <VisualState x:Name="Normal" >
+                                <VisualState x:Name="Normal">
                                     <VisualState.Setters>
                                         <Setter Property="FontAttributes" Value="None" />
                                         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Gray200}}" />
@@ -119,25 +119,10 @@
             <BoxView Grid.Row="3" HeightRequest="1" Color="{AppThemeBinding Light='#44000000', Dark='#44ffffff'}" />
 
         </Grid>
-        
-        <!-- hex numpad -->
-        <Grid x:Name="GrdHex"
-              Grid.Row="2"
-              ColumnDefinitions="*,*,*,*,*,*"
-              ColumnSpacing="5"
-              Padding="10,0,10,5"
-              IsVisible="false">
-            <Button Grid.Column="0" Text="A" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
-            <Button Grid.Column="1" Text="B" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
-            <Button Grid.Column="2" Text="C" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
-            <Button Grid.Column="3" Text="D" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
-            <Button Grid.Column="4" Text="E" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
-            <Button Grid.Column="5" Text="F" Clicked="BtnNum_Clicked" MinimumHeightRequest="60" />
-        </Grid>
-        
+
         <!-- numpad -->
         <Grid x:Name="GrdNumPad"
-              Grid.Row="3"
+              Grid.Row="2"
               RowDefinitions="*,*,*,*"
               ColumnDefinitions="*,*,*,*"
               ColumnSpacing="5"
@@ -210,7 +195,7 @@
             </ImageButton>
         </Grid>
 
-        <controls:MTAdView Grid.Row="4"
+        <controls:MTAdView Grid.Row="3"
                            AdsId="ca-app-pub-3940256099942544/6300978111"
                            AdSize="Banner"
                            IsVisible="true"

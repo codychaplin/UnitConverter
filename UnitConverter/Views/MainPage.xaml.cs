@@ -27,6 +27,16 @@ public partial class MainPage : ContentPage
     }
 
     /// <summary>
+    /// Focuses on txtTop on start.
+    /// </summary>
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await Task.Delay(100);
+        txtTop.Focus();
+    }
+
+    /// <summary>
     /// Update category based on tab index.
     /// </summary>
     /// <param name="sender"></param>
@@ -42,10 +52,6 @@ public partial class MainPage : ContentPage
 
         // only enable +/- button for temperature
         BtnPlusMinus.IsEnabled = (Category)newIndex == Category.Temperature;
-
-        // focus on top Entry by default
-        txtTop.Unfocus();
-        txtTop.Focus();
     }
 
     /// <summary>
@@ -55,12 +61,12 @@ public partial class MainPage : ContentPage
     /// <param name="e"></param>
     async void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (canUpdate)
-            await UpdateOtherValue();
+        if (!canUpdate)
+            return;
 
+        await UpdateOtherValue();
 
-        // delay briefly and refocus on Entry
-        await Task.Delay(250);
+        // refocus on Entry
         if (FocusedEntry?.Id == txtTop.Id)
         {
             txtTop.Unfocus();
@@ -71,6 +77,7 @@ public partial class MainPage : ContentPage
             txtBottom.Unfocus();
             txtBottom.Focus();
         }
+
     }
 
     /// <summary>
@@ -159,6 +166,21 @@ public partial class MainPage : ContentPage
 
             // update text
             text = text.Insert(pos, num);
+
+            // if . and , are beside eachother, fix
+            if (num == "." && pos > 0 && pos < text.Length)
+            {
+                if (text[pos - 1] == ',')
+                    text = text.Remove(pos - 1, 1);
+                else if (text[pos + 1] == ',')
+                    text = text.Remove(pos + 1, 1);
+
+                var split = text.Split(".");
+                var afterDecimal = split[1].Replace(",", "");
+                pos -= afterDecimal.Length - split[1].Length;
+                text = $"{split[0]}.{afterDecimal}";
+            }
+
 
             // if just "." or "-." skip formatting
             if (text == "." || text == "-.")
