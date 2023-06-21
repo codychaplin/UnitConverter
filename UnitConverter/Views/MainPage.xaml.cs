@@ -168,7 +168,7 @@ public partial class MainPage : ContentPage
             text = text.Insert(pos, num);
 
             // if . and , are beside eachother, fix
-            if (num == "." && pos > 0 && pos < text.Length)
+            if (num == "." && pos > 0 && pos < text.Length - 1)
             {
                 if (text[pos - 1] == ',')
                     text = text.Remove(pos - 1, 1);

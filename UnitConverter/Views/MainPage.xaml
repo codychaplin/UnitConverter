@@ -65,14 +65,17 @@
                 <Style TargetType="{x:Type Entry}">
                     <Setter Property="FontSize" Value="20" />
                     <Setter Property="VerticalOptions" Value="Center" />
+                    <Setter Property="HorizontalOptions" Value="End" />
+                    <Setter Property="HorizontalTextAlignment" Value="End" />
                 </Style>
                 <Style TargetType="{x:Type Picker}">
                     <Setter Property="FontSize" Value="20" />
-                    <Setter Property="VerticalOptions" Value="End" />
+                    <Setter Property="VerticalOptions" Value="Center" />
                 </Style>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="FontSize" Value="20" />
                     <Setter Property="VerticalOptions" Value="Center" />
+                    <Setter Property="HorizontalOptions" Value="End" />
                 </Style>
             </Grid.Resources>
 
@@ -80,7 +83,7 @@
             <Grid RowDefinitions="*,*">
                 <HorizontalStackLayout>
                     <Picker x:Name="PckTop" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedTopUnit}"
-                            VerticalOptions="Center" SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                            SelectedIndexChanged="Picker_SelectedIndexChanged" />
                     <ImageButton x:Name="BtnTop" Source="dropdown.png" HeightRequest="30" WidthRequest="30"
                                  VerticalOptions="Center" Clicked="BtnTop_Clicked">
                         <ImageButton.Behaviors>
@@ -89,8 +92,8 @@
                     </ImageButton>
                 </HorizontalStackLayout>
                 <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="End">
-                    <Entry x:Name="txtTop" Text="" HorizontalTextAlignment="End" />
-                    <Label Text="{Binding SelectedTopUnit.Abbreviation}" Grid.Column="1" HorizontalOptions="End" />
+                    <Entry x:Name="txtTop" Text="" />
+                    <Label Text="{Binding SelectedTopUnit.Abbreviation}" Grid.Column="1" />
                 </Grid>
             </Grid>
 
@@ -101,7 +104,7 @@
             <Grid Grid.Row="2" RowDefinitions="*,*">
                 <HorizontalStackLayout>
                     <Picker x:Name="PckBottom" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedBottomUnit}"
-                            VerticalOptions="Center" SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                            SelectedIndexChanged="Picker_SelectedIndexChanged" />
                     <ImageButton x:Name="BtnBottom" Source="dropdown.png" HeightRequest="30" WidthRequest="30"
                                  VerticalOptions="Center" Clicked="BtnBottom_Clicked">
                         <ImageButton.Behaviors>
@@ -110,8 +113,8 @@
                     </ImageButton>
                 </HorizontalStackLayout>
                 <Grid Grid.Row="1" ColumnDefinitions="*,Auto" ColumnSpacing="5" HorizontalOptions="FillAndExpand" VerticalOptions="End">
-                    <Entry x:Name="txtBottom" Text="" HorizontalTextAlignment="End" />
-                    <Label Text="{Binding SelectedBottomUnit.Abbreviation}" Grid.Column="1" HorizontalOptions="End" />
+                    <Entry x:Name="txtBottom" Text="" />
+                    <Label Text="{Binding SelectedBottomUnit.Abbreviation}" Grid.Column="1" />
                 </Grid>
             </Grid>
 
