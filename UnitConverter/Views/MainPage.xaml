@@ -199,7 +199,7 @@
         </Grid>
 
         <controls:MTAdView Grid.Row="3"
-                           AdsId="ca-app-pub-3940256099942544/6300978111"
+                           AdsId="ca-app-pub-6983383854683496/7827708227"
                            AdSize="Banner"
                            IsVisible="true"
                            VerticalOptions="End"
